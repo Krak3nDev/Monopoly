@@ -1,0 +1,29 @@
+[project]
+name = "monopoly"
+version = "0.1.0"
+packages = [
+    {from = "src", include = "monopoly"}
+]
+description = "Monopoly game"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "betterlogging>=1.0.0",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "mypy>=1.12.1",
+    "ruff>=0.7.0",
+]
+
+[tool.mypy]
+files = ["monopoly"]
+python_version = "3.12"
+strict = true
+
+[tool.ruff]
+select = ["I", "E", "F", "W"]
+line-length = 99
+src = ["monopoly", "tests"]
+target-version = "py312"
