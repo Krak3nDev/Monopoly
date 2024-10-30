@@ -42,7 +42,6 @@ class Estate:
     category: EstateCategory
     _state: "EstateState" = field(default_factory=lambda: NotOwnedState())
     _owner: PlayerId | None = None
-    turns_until_buyback_initial: int = 0
 
     def _set_state(self, new_state: EstateState) -> None:
         self._state = new_state
