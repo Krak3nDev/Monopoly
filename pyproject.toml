@@ -23,7 +23,7 @@ python_version = "3.12"
 strict = true
 
 [tool.ruff]
-select = ["I", "E", "F", "W"]
+lint.select = ["I", "E", "F", "W"]
 line-length = 99
 src = ["monopoly", "tests"]
 target-version = "py312"

@@ -1,11 +1,12 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 from typing import NewType
 
-from src.monopoly.domain.entities.estate_state import EstateState
+from src.monopoly.domain.entities.estate_state import EstateState, NotOwnedState
 from src.monopoly.domain.entities.player import PlayerId
 
 EstateId = NewType("EstateId", int)
+
 
 class EstateCategory(str, Enum):
     PERFUMERY = "Perfumery"
@@ -18,6 +19,7 @@ class EstateCategory(str, Enum):
     WEB_SERVICES = "Web Services"
     CLOTHING = "Clothing"
 
+
 BUILDABLE_CATEGORIES = {
     EstateCategory.PERFUMERY,
     EstateCategory.ELECTRONICS,
@@ -26,8 +28,9 @@ BUILDABLE_CATEGORIES = {
     EstateCategory.AIRLINES,
     EstateCategory.BEVERAGES,
     EstateCategory.WEB_SERVICES,
-    EstateCategory.CLOTHING
+    EstateCategory.CLOTHING,
 }
+
 
 @dataclass(kw_only=True, slots=True)
 class Estate:
@@ -37,24 +40,31 @@ class Estate:
     mortgage_price: int
     buyback_price: int
     category: EstateCategory
-    state: EstateState
-    owner: PlayerId | None = None
+    _state: "EstateState" = field(default_factory=lambda: NotOwnedState())
+    _owner: PlayerId | None = None
     turns_until_buyback_initial: int = 0
 
-    def set_state(self, new_state: EstateState) -> None:
-        self.state = new_state
+    def _set_state(self, new_state: EstateState) -> None:
+        self._state = new_state
 
     def buy(self, player_id: PlayerId) -> None:
-        self.state.buy(self, player_id)
+        self._state.buy(self, player_id)
 
     def mortgage(self, player_id: PlayerId) -> None:
-        self.state.mortgage(self, player_id)
+        self._state.mortgage(self, player_id)
 
     def buyback(self, player_id: PlayerId) -> None:
-        self.state.buyback(self, player_id)
+        self._state.buyback(self, player_id)
 
     def advance_turn(self) -> None:
-        self.state.advance_turn(self)
+        self._state.advance_turn(self)
+
+    @property
+    def owner(self) -> PlayerId | None:
+        return self._owner
+
+    def _set_owner(self, player_id: PlayerId | None) -> None:
+        self._owner = player_id
 
 
 @dataclass(kw_only=True, slots=True)
@@ -71,4 +81,3 @@ class BuildableEstate(Estate):
 @dataclass(kw_only=True, slots=True)
 class UnbuildableEstate(Estate):
     pass
-

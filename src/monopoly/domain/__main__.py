@@ -1,12 +1,13 @@
 import logging
 
 import betterlogging
-
-from src.monopoly.domain.entities.estate import Estate, EstateId, EstateCategory
-from src.monopoly.domain.entities.estate_state import NotOwnedState
+from src.monopoly.domain.entities.estate import Estate, EstateCategory, EstateId
 from src.monopoly.domain.entities.player import Player, PlayerId
 from src.monopoly.domain.exceptions.base import InsufficientFundsError
-from src.monopoly.domain.exceptions.estate_exc import EstateNotOwnedException, EstateAlreadyOwnedException
+from src.monopoly.domain.exceptions.estate_exc import (
+    EstateAlreadyOwnedException,
+    EstateNotOwnedException,
+)
 
 
 def main():
@@ -19,8 +20,22 @@ def main():
     )
     log = logging.getLogger(__name__)
 
-    estate1 = Estate(identity=EstateId(1), name="Вулиця Медова", price=60, mortgage_price=30, buyback_price=33, category=EstateCategory.CLOTHING, state=NotOwnedState())
-    estate2 = Estate(identity=EstateId(2), name="Вулиця Балтімор", price=60, mortgage_price=30, buyback_price=33, category=EstateCategory.CLOTHING, state=NotOwnedState())
+    estate1 = Estate(
+        identity=EstateId(1),
+        name="Вулиця Медова",
+        price=60,
+        mortgage_price=30,
+        buyback_price=33,
+        category=EstateCategory.CLOTHING,
+    )
+    estate2 = Estate(
+        identity=EstateId(2),
+        name="Вулиця Балтімор",
+        price=60,
+        mortgage_price=30,
+        buyback_price=33,
+        category=EstateCategory.CLOTHING,
+    )
     estates = [estate1, estate2]
 
     player1 = Player(identity=PlayerId(1), funds=1500)
@@ -38,13 +53,17 @@ def main():
                 player.buy_estate(estate_to_buy)
                 log.info(f"Estate after purchase: {estate_to_buy}")
             except InsufficientFundsError:
-                log.info(f"Player {player.identity} does not have enough funds to buy {estate_to_buy.name}")
+                log.info(
+                    f"Player {player.identity} does not have enough funds "
+                    f"to buy {estate_to_buy.name}"
+                )
             except EstateAlreadyOwnedException as e:
                 log.info(f"Cannot buy {estate_to_buy.name}: {e}")
             except EstateNotOwnedException as e:
                 log.info(f"Cannot buy {estate_to_buy.name}: {e}")
 
             log.info(f"Player {player.identity}'s balance: ${player.funds}")
+
 
 if __name__ == "__main__":
     main()
