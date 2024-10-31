@@ -6,8 +6,9 @@ from src.monopoly.domain.entities.player import Player, PlayerId
 from src.monopoly.domain.exceptions.base import InsufficientFundsError
 from src.monopoly.domain.exceptions.estate_exc import (
     EstateAlreadyOwnedException,
-    EstateNotOwnedException,
+    EstateNotOwnedException, TradeDifferenceExceededException, InvalidFundsException,
 )
+from src.monopoly.domain.value_objects.funds import Funds
 
 
 def main():
@@ -38,31 +39,9 @@ def main():
     )
     estates = [estate1, estate2]
 
-    player1 = Player(identity=PlayerId(1), funds=1500)
-    player2 = Player(identity=PlayerId(2), funds=1500)
+    player1 = Player(identity=PlayerId(1), funds=Funds(1500))
+    player2 = Player(identity=PlayerId(2), funds=Funds(1500))
     players = [player1, player2]
-
-    for turn in range(2):
-        for player in players:
-            log.info(f"Player {player.identity}'s turn.")
-            estate_to_buy = estates[turn]
-            log.info(f"Estate available for purchase: {estate_to_buy}")
-
-            log.info(f"Available estate: {estate_to_buy.name} for ${estate_to_buy.price}")
-            try:
-                player.buy_estate(estate_to_buy)
-                log.info(f"Estate after purchase: {estate_to_buy}")
-            except InsufficientFundsError:
-                log.info(
-                    f"Player {player.identity} does not have enough funds "
-                    f"to buy {estate_to_buy.name}"
-                )
-            except EstateAlreadyOwnedException as e:
-                log.info(f"Cannot buy {estate_to_buy.name}: {e}")
-            except EstateNotOwnedException as e:
-                log.info(f"Cannot buy {estate_to_buy.name}: {e}")
-
-            log.info(f"Player {player.identity}'s balance: ${player.funds}")
 
 
 if __name__ == "__main__":

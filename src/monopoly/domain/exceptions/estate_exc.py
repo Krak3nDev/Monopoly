@@ -1,7 +1,5 @@
 from .base import DomainError
 
-
-
 class EstateNotOwnedException(DomainError):
     def __init__(self, estate_name: str, action: str = "perform the action"):
         self.message = f"Estate '{estate_name}' is not owned. Cannot {action}."
@@ -30,4 +28,20 @@ class EstateAlreadyOwnedException(DomainError):
 class EstatePermissionException(DomainError):
     def __init__(self, estate_name: str, action: str = "perform the action"):
         self.message = f"Cannot {action} '{estate_name}': permission denied."
+        super().__init__(self.message)
+
+
+class TradeDifferenceExceededException(DomainError):
+    def __init__(self, player_id: int, given: int, received: int):
+        self.message = (
+            f"Trade difference exceeded for Player {player_id}. "
+            f"Given: ${given}, Received: ${received}. "
+            f"Trade must not exceed a 50% difference."
+        )
+        super().__init__(self.message)
+
+
+class InvalidFundsException(DomainError):
+    def __init__(self, amount: int, action: str = "perform the action"):
+        self.message = f"Invalid funds amount: {amount}. Cannot {action}."
         super().__init__(self.message)
