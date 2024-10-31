@@ -47,7 +47,7 @@ class NotOwnedState(EstateState):
     """
 
     def buy(self, estate: "Estate", player_id: PlayerId) -> None:
-        estate._set_owner(player_id=player_id)
+        estate.set_owner(player_id=player_id)
         estate._set_state(OwnedState())
         log.info(f"{estate.name} has been purchased by Player {player_id}.")
 
@@ -118,5 +118,5 @@ class MortgagedState(EstateState):
             log.info(f"{self.turns_until_buyback} turns remaining to buy back {estate.name}.")
             if self.turns_until_buyback == 0:
                 estate._set_state(NotOwnedState())
-                estate._set_owner(None)
+                estate.set_owner(None)
                 log.info(f"Buyback time for {estate.name} has expired. The estate is now available for purchase.")

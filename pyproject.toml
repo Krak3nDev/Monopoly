@@ -1,9 +1,6 @@
 [project]
 name = "monopoly"
 version = "0.1.0"
-packages = [
-    {from = "src", include = "monopoly"}
-]
 description = "Monopoly game"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -16,6 +13,7 @@ dev-dependencies = [
     "mypy>=1.12.1",
     "ruff>=0.7.0",
 ]
+package = true
 
 [tool.mypy]
 files = ["monopoly"]

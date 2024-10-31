@@ -2,8 +2,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import NewType
 
-from src.monopoly.domain.entities.estate_state import EstateState, NotOwnedState
-from src.monopoly.domain.entities.player import PlayerId
+from monopoly.domain.entities.estate_state import EstateState, NotOwnedState
+from monopoly.domain.entities.player import PlayerId
 
 EstateId = NewType("EstateId", int)
 
@@ -41,7 +41,7 @@ class Estate:
     buyback_price: int
     category: EstateCategory
     _state: "EstateState" = field(default_factory=lambda: NotOwnedState())
-    _owner: PlayerId | None = None
+    owner: PlayerId | None = None
 
     def _set_state(self, new_state: EstateState) -> None:
         self._state = new_state
@@ -58,12 +58,8 @@ class Estate:
     def advance_turn(self) -> None:
         self._state.advance_turn(self)
 
-    @property
-    def owner(self) -> PlayerId | None:
-        return self._owner
-
-    def _set_owner(self, player_id: PlayerId | None) -> None:
-        self._owner = player_id
+    def set_owner(self, player_id: PlayerId | None) -> None:
+        self.owner = player_id
 
 
 @dataclass(kw_only=True, slots=True)

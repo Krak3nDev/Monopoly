@@ -1,7 +1,6 @@
 from dataclasses import dataclass
-from functools import total_ordering
 
-from src.monopoly.domain.exceptions.estate_exc import InvalidFundsException
+from monopoly.domain.exceptions.estate_exc import InvalidFundsException
 
 @dataclass(frozen=True, order=True)
 class Funds:
