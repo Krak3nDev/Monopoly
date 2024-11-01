@@ -3,7 +3,8 @@ from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, NewType
 
 from monopoly.domain.exceptions.base import InsufficientFundsError
-from monopoly.domain.exceptions.estate_exc import TradeDifferenceExceededException, EstateNotOwnedException
+from monopoly.domain.exceptions.estate_exc import TradeDifferenceExceededException, EstateNotOwnedException, \
+    TradeMustIncludeAtLeastOneEstateException
 from monopoly.domain.value_objects.funds import Funds
 
 if TYPE_CHECKING:
@@ -87,6 +88,10 @@ class Player:
 
         log.debug(f"Player {self.identity} is attempting to trade with Player {other_player.identity}.")
         log.debug(f"Total given: ${total_given}, Total received: ${total_received}")
+
+        if not estates_to_give and not estates_to_receive:
+            log.error("Trade must include at least one estate to give or receive.")
+            raise TradeMustIncludeAtLeastOneEstateException()
 
         if total_given > 2 * total_received or total_received > 2 * total_given:
             raise TradeDifferenceExceededException(

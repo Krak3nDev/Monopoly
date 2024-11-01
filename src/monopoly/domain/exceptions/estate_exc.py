@@ -45,3 +45,8 @@ class InvalidFundsException(DomainError):
     def __init__(self, amount: int, action: str = "perform the action"):
         self.message = f"Invalid funds amount: {amount}. Cannot {action}."
         super().__init__(self.message)
+
+class TradeMustIncludeAtLeastOneEstateException(DomainError):
+    def __init__(self):
+        self.message = "Trade must include at least one estate."
+        super().__init__(self.message)
