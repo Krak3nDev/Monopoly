@@ -93,13 +93,6 @@ class Player:
             log.error("Trade must include at least one estate to give or receive.")
             raise TradeMustIncludeAtLeastOneEstateException()
 
-        if total_given > 2 * total_received or total_received > 2 * total_given:
-            raise TradeDifferenceExceededException(
-                player_id=self.identity,
-                given=total_given,
-                received=total_received
-            )
-
         for estate in estates_to_give:
             estate_id = estate.identity
             if estate_id not in self.estates:
@@ -111,6 +104,13 @@ class Player:
             if estate_id not in other_player.estates:
                 log.error(f"Player {other_player.identity} does not own estate '{estate.name}' and cannot trade it.")
                 raise EstateNotOwnedException(estate.name, action="trade")
+
+        if total_given > 2 * total_received or total_received > 2 * total_given:
+            raise TradeDifferenceExceededException(
+                player_id=self.identity,
+                given=total_given,
+                received=total_received
+            )
 
         if self.funds.amount < funds_to_give.amount:
             log.error(f"Player {self.identity} does not have enough funds to give ${funds_to_give.amount}.")
