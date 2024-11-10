@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "betterlogging>=1.0.0",
+    "pytest>=8.3.3",
 ]
 
 [tool.uv]

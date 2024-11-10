@@ -1,14 +1,14 @@
 import logging
 
 import betterlogging
-from src.monopoly.domain.entities.estate import Estate, EstateCategory, EstateId
-from src.monopoly.domain.entities.player import Player, PlayerId
-from src.monopoly.domain.exceptions.base import InsufficientFundsError
-from src.monopoly.domain.exceptions.estate_exc import (
+from monopoly.domain.entities.estate import Estate, EstateCategory, EstateId
+from monopoly.domain.entities.player import Player, PlayerId
+from monopoly.domain.exceptions.base import InsufficientFundsError
+from monopoly.domain.exceptions.estate_exc import (
     EstateAlreadyOwnedException,
     EstateNotOwnedException, TradeDifferenceExceededException, InvalidFundsException,
 )
-from src.monopoly.domain.value_objects.funds import Funds
+from monopoly.domain.value_objects.funds import Funds
 
 
 def main():

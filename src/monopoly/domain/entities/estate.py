@@ -7,7 +7,7 @@ from monopoly.domain.entities.player import PlayerId
 
 EstateId = NewType("EstateId", int)
 
-
+    
 class EstateCategory(str, Enum):
     PERFUMERY = "Perfumery"
     ELECTRONICS = "Electronics"
